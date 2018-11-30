@@ -1,0 +1,3 @@
+include ':app'
+include ':XLN'
+project(":XLN").projectDir = new File("../../../XLN/Core/Platform/android")

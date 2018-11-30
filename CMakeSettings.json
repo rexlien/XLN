@@ -1,0 +1,122 @@
+{
+    // See https://go.microsoft.com//fwlink//?linkid=834763 for more information about this file.
+    "configurations": [
+        {
+            "name": "x64-Debug",
+            "generator": "Ninja",
+            "configurationType": "Debug",
+            "inheritEnvironments": [ "msvc_x64" ],
+            "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "-v",
+            "ctestCommandArgs": ""
+        },
+        {
+            "name": "x64-Release",
+            "generator": "Ninja",
+            "configurationType": "RelWithDebInfo",
+            "inheritEnvironments": [ "msvc_x64" ],
+            "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "-v",
+            "ctestCommandArgs": ""
+        },
+        {
+            "name": "x64-msvc",
+            "generator": "Visual Studio 15 2017 Win64",
+            "configurationType": "Debug",
+            "inheritEnvironments": [ "msvc_x64" ],
+            "buildRoot": "${projectDir}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+            "variables": [
+                {
+                    "name": "CMAKE_SYSTEM_VERSION",
+                    "value": "10.0"
+                },
+                {
+                    "name": "XLN_BUILD_SERVER",
+                    "value": "true"
+                },
+                {
+                    "name": "XLN_BUILD_TEST",
+                    "value": "true"
+                }
+
+            ]
+        },
+        {
+            "name": "Linux-Debug",
+            "generator": "Ninja",
+            "remoteMachineName": "${defaultRemoteMachineName}",
+            "configurationType": "Debug",
+            "remoteCMakeListsRoot": "/home/XLN",
+            "cmakeExecutable": "/usr/local/bin/cmake",
+            "buildRoot": "${env.LOCALAPPDATA}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+            "remoteBuildRoot": "/home/XLN/CMakeBuilds/${workspaceHash}/build/${name}",
+            "remoteCopySources": false,
+            "remoteCopySourcesOutputVerbosity": "Normal",
+            "remoteCopySourcesConcurrentCopies": "10",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "-- -j 4",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": [ "linux-x64" ],
+            "variables": [
+                {
+                    "name": "LINUX_PC",
+                    "value": "true"
+                },
+                {
+                    "name": "CMAKE_TOOLCHAIN_FILE",
+                    "value": "/usr/lib/XLN/Toolchain.cmake"
+                },
+                {
+                    "name": "XLN_BUILD_SERVER",
+                    "value": "true"
+                },
+                {
+                    "name": "XLN_BUILD_TEST",
+                    "value": "true"
+                }
+            ]
+        },
+        {
+            "name": "Linux-Release",
+            "generator": "Ninja",
+            "remoteMachineName": "${defaultRemoteMachineName}",
+            "configurationType": "Release",
+            "remoteCMakeListsRoot": "/home/XLN",
+            "cmakeExecutable": "/usr/local/bin/cmake",
+            "buildRoot": "${env.LOCALAPPDATA}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+            "remoteBuildRoot": "/home/XLN/CMakeBuilds/${workspaceHash}/build/${name}",
+            "remoteCopySources": false,
+            "remoteCopySourcesOutputVerbosity": "Normal",
+            "remoteCopySourcesConcurrentCopies": "10",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "-- -j 4",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": [ "linux-x64" ],
+            "variables": [
+                {
+                    "name": "LINUX_PC",
+                    "value": "true"
+                },
+                {
+                    "name": "CMAKE_TOOLCHAIN_FILE",
+                    "value": "/usr/lib/XLN/Toolchain.cmake"
+                },
+                {
+                    "name": "XLN_BUILD_SERVER",
+                    "value": "true"
+                },
+                {
+                    "name": "XLN_BUILD_TEST",
+                    "value": "true"
+                },
+                {
+                    "name": "CMAKE_BUILD_TYPE",
+                    "value": "Release"
+                }
+            ]
+        }
+
+    ]
+}

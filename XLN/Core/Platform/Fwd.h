@@ -1,0 +1,4 @@
+namespace XCr
+{
+    class PlatformService;
+}

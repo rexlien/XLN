@@ -1,0 +1,9 @@
+[submodule "thirdParty"]
+	path = thirdParty
+url=https://github.com/rexlien/thirdParty.git
+[submodule "cmake"]
+	path = cmake
+url=https://github.com/rexlien/cmake.git
+[submodule "XLNProtocol"]
+	path = XLNProtocol
+	url = https://github.com/rexlien/XLNProtocol.git
