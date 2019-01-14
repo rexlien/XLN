@@ -11,6 +11,7 @@ set(OS "\"${CMAKE_SYSTEM_NAME}\"")
 if(MSVC)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
 add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/MP>)
+add_compile_definitions(_ENABLE_EXTENDED_ALIGNED_STORAGE)
 endif()
 
 include(${PROJECT_SOURCE_DIR}/thirdParty/thirdParty.cmake)
