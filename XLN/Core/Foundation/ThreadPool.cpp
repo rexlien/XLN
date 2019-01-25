@@ -12,7 +12,7 @@ XCr::ThreadPool::ThreadPool()
 {
 	m_CurrentPickThread = 0;
 }
-
+/*
 void ThreadPool::AddThread(std::size_t numToAdd, std::function<void(ThreadPtr)>&& runFunc)
 {
     while(numToAdd)
@@ -27,14 +27,12 @@ void ThreadPool::AddThread(std::size_t numToAdd, std::function<void(ThreadPtr)>&
     }
 
 }
-
-//template<class T = ThreadFactory>
-
+*/
 void XCr::ThreadPool::AddThread(std::size_t numToAdd, std::function<void(ThreadPtr)>&& runFunc, ThreadFactory * threadfactory)
 {
 	while (numToAdd)
 	{
-		auto newThread = XCr::SharedPtr<Thread>(threadfactory->CreateThread());// ThreadFactory::CreateThread());
+		auto newThread = XCr::SharedPtr<Thread>(threadfactory->CreateThread());
 		newThread->SetThread(std::thread(std::bind(runFunc, newThread)));
 		
 		{	
@@ -44,6 +42,19 @@ void XCr::ThreadPool::AddThread(std::size_t numToAdd, std::function<void(ThreadP
 		numToAdd--;
 	}
 }
+
+XCr::ThreadPool::ThreadPtr XCr::ThreadPool::AddThread(std::function<void(ThreadPtr)>&& runFunc, ThreadFactory* threadfactory)
+{
+    auto newThread = XCr::SharedPtr<Thread>(threadfactory->CreateThread());
+    newThread->SetThread(std::thread(std::bind(runFunc, newThread)));
+
+    {
+        folly::RWSpinLock::WriteHolder w(&m_ThreadListLock);
+        m_Threads.Add(newThread);
+    }
+    return newThread;
+}
+
 
 XCr::ThreadPool::ThreadPtr XCr::ThreadPool::PickThread()
 {

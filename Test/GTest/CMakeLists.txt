@@ -1,6 +1,7 @@
 set(EXE_NAME XLNGTest)
 
 include(${PROJECT_SOURCE_DIR}/cmake/util.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/grpc.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../../thirdParty/app_include.cmake)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -41,6 +42,12 @@ if(XLN_BUILD_SERVER)
   )
 
   list(APPEND THRIFT_SRC ${TestThrift-cpp2-SOURCES} ${FutureThrift-cpp2-SOURCES})
+
+
+  xln_protobuf_generate_grpc_cpp(PACKAGE GTestApp 
+      INCLUDE_PATH  ${CMAKE_CURRENT_SOURCE_DIR}/Test
+      OUTPUT_PATH proto-gen 
+      PROTO TestGrpc.proto)
   
 endif()
 
@@ -49,9 +56,11 @@ add_executable(
     ${EXE_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/GTestApplication.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Test/TestFolly.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Test/TestGrpc.cpp
     ${PLATFORM_SRC}
     ${SERVER_SRC}
     ${THRIFT_SRC}
+    ${GTestApp_src}
   )
 else()
   add_library(

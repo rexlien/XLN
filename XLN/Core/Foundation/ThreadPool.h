@@ -30,6 +30,10 @@ public:
 
         virtual ~Thread() = default;
 		virtual void Exit() {};
+        virtual void AfterRun() { m_ThreadStartBarrier.post(); }
+        virtual void BeforeExit() { m_ThreadEndBarrier.post(); }
+        void WaitRun() { m_ThreadStartBarrier.wait(); }
+        void WaitExit() { m_ThreadEndBarrier.wait(); }
 		virtual void SetThread(std::thread&& thread) { m_Thread = std::move(thread); }
 
 		//void SetName(const std::string& name);
@@ -38,6 +42,7 @@ public:
         std::uint64_t m_ID;
         std::chrono::steady_clock::time_point m_LastActiveTime;
 		folly::Baton<> m_ThreadStartBarrier;
+        folly::Baton<> m_ThreadEndBarrier;
 		
         bool m_Idle;
 	private:
@@ -59,6 +64,12 @@ public:
 			return XLN_OBJ_NEW Thread();
 		}
 
+        static ThreadFactory& DefaultFactory() 
+        {  
+            static ThreadFactory s_Factory;
+            return s_Factory;
+        }
+    
 	};
 	
 
@@ -104,6 +115,8 @@ public:
 			return m_Threads[at];
 		}
 
+        
+
 		void Foreach(folly::Function<void(ThreadPtr)> func)
 		{
 			for (auto thread : m_Threads)
@@ -125,8 +138,9 @@ public:
 
     void SetNumOfThread(XCr::UInt32 num);
 
-    void AddThread(std::size_t numToAdd, std::function<void(ThreadPtr)>&& runFunc);
-	void AddThread(std::size_t numToAdd, std::function<void(ThreadPtr)>&& runFunc, ThreadFactory* threadfactory);
+    //void AddThread(std::size_t numToAdd, std::function<void(ThreadPtr)>&& runFunc);
+	void AddThread(std::size_t numToAdd, std::function<void(ThreadPtr)>&& runFunc, ThreadFactory* threadfactory = &(ThreadFactory::DefaultFactory()));
+    ThreadPtr AddThread(std::function<void(ThreadPtr)>&& runFunc, ThreadFactory* threadfactory = &(ThreadFactory::DefaultFactory()));
 
     //
     void RemoveThread(std::size_t numToRemove);
