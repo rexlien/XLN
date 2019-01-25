@@ -34,6 +34,9 @@ namespace
     void InjectService()
     {
         XGf::ConfigService* configService = XCr::ServiceMgr::GetActiveServiceMgr()->GetService<XGf::ConfigService>();
+        if (configService->GetAppConfig() != nullptr)
+            return;
+
         auto services = configService->GetAppConfig()["XLNAppConfig"]["Services"];
         if (services != nullptr)
         {

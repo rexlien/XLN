@@ -33,7 +33,8 @@ void XGf::ConfigService::AddConfiguration(const std::string & key, const std::st
     catch (std::exception& ex)
     {
         XLN_LOGE("Config load error: %s", ex.what());
-        throw ex;
+        return;
+        //throw ex;
     }
     m_Configs.insert(std::make_pair(key, json));
 
