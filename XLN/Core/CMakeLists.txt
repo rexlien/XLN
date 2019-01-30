@@ -1,6 +1,7 @@
 set(LIB_NAME Core)
 
 include(${PROJECT_SOURCE_DIR}/cmake/util.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/grpc.cmake)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -42,9 +43,6 @@ endif()
 
 file(GLOB CORE_HEADER "Foundation/*.h" "Foundation/*/*.h" "Framework/*.h" "Network/*.h" "Network/*/*.h"
    "DebugHelper/*.h" "DebugHelper/Memory/*.h" "Utility/*.h" "*.h" "Config/*.h" "Platform/*.h")
-
-
-
 
 set(HHEADERS
    ${HHEADERS}
@@ -99,6 +97,7 @@ endif()
 
 target_link_libraries(${LIB_NAME} PUBLIC wangle)
 target_link_libraries(${LIB_NAME} PUBLIC folly)
+target_link_libraries(${LIB_NAME} PUBLIC grpc++)
 
 if(ANDROID)
   

@@ -1,0 +1,40 @@
+{
+    "XLNAppConfig" :
+    {
+        "Services":
+        [
+            {"Name":"MySQLService", "Class":"MySQLService"},
+            {"Name":"GrpcService", "Class":"GrpcService"}
+            
+        ],
+
+        "ServerConfigs" :
+         {  
+             "ThriftServer" : 
+             {  "AcceptPort":10000, 
+                "IdleTimeout":10000,
+                "IOThreadCount":4,
+                "CPUThreadCount":4
+             }, 
+            
+             "MySQLService" :
+             {
+                 "ThreadCount":2,
+                 "DBConnections":
+                 [
+                    {"Key":"amiiba", "Host":"10.113.185.208", "Port":3306, "DBName":"amiiba", "User":"root", "PW":"1234"}
+                 ]
+             },
+             "GRPCClient" :
+             {
+                "ThreadCount" : 1,
+                "Channels":
+                [
+                    {"Name":"server1", "IP":"0.0.0.0:xxx"}
+                ]
+             }
+         
+         }
+    }
+
+}

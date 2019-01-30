@@ -1,6 +1,7 @@
 set(LIB_NAME XLNNetwork)
 
 include(${PROJECT_SOURCE_DIR}/cmake/util.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/grpc.cmake)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -19,7 +20,7 @@ set(LIB_CPP2_HOME ${CMAKE_CURRENT_SOURCE_DIR})
     "${CMAKE_CURRENT_SOURCE_DIR}/../../XLNProtocol/thrift" #file_path
     "${LIB_CPP2_HOME}" #output_path
   )
-
+  
 bypass_source_check("{ActorService-cpp2-SOURCES}")
 list(APPEND THRIFT_SRC ${ActorService-cpp2-SOURCES})
 
@@ -36,12 +37,19 @@ set(LIB_CPP2_HOME ${CMAKE_CURRENT_SOURCE_DIR})
 bypass_source_check("{NetworkService-cpp2-SOURCES}")
 list(APPEND THRIFT_SRC ${NetworkService-cpp2-SOURCES})
 
+xln_protobuf_generate_grpc_cpp(PACKAGE Raft 
+    OUTPUT_PATH protoRaft 
+    INCLUDE_PATH ${PROJECT_SOURCE_DIR}/XLNProtocol/proto
+    PROTO raft.proto)
+
+
 file(GLOB_RECURSE NETWORK_SRC "*.cpp")
 
 set(SOURCE
    ${SOURCE}
    ${NETWORK_SRC}  
    ${THRIFT_SRC}
+   ${Raft_src}
 )
 
 file(GLOB_RECURSE NETWORK_HEADER "*.h" )

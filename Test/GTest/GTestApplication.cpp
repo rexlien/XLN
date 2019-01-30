@@ -1,4 +1,5 @@
 #include "GTestApplication.h"
+#include <XLN/Core/Framework/System.h>
 #include <gtest/gtest.h>
 
 using namespace XLN;
@@ -80,6 +81,8 @@ void GTestApplication::Main(int argc, char** argv)
     testing::InitGoogleTest(&argc, argv);
 
     RUN_ALL_TESTS();
+
+    XGf::System::Shutdown();
 }
 
 

@@ -2,6 +2,7 @@ set(EXE_NAME XLNGTest)
 
 include(${PROJECT_SOURCE_DIR}/cmake/util.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/grpc.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/app.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../../thirdParty/app_include.cmake)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -85,12 +86,19 @@ else()
   target_link_libraries(${EXE_NAME} XLNClient)
 endif()
 
-if(MSVC)
-  add_custom_command ( TARGET ${EXE_NAME} POST_BUILD 
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:pthread> 
-    $<TARGET_FILE_DIR:${EXE_NAME}> 
-  )
+
+##if(MSVC)
+##  add_custom_command ( TARGET ${EXE_NAME} POST_BUILD 
+##    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:pthread> 
+##    $<TARGET_FILE_DIR:${EXE_NAME}> 
+##  )
   ##TODO: really don't know why VS throws pthread.lib not found error. and there's no pthread.lib set in the link commands.
-  SET(CMAKE_EXE_LINKER_FLAGS /NODEFAULTLIB:\"pthread.lib\") 
-endif()
+##  SET(CMAKE_EXE_LINKER_FLAGS /NODEFAULTLIB:\"pthread.lib\") 
+#endif()
+
+xln_build_app(${EXE_NAME})
+
+#add_custom_command(TARGET ${EXE_NAME} PRE_BUILD
+#                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+#                       ${PROJECT_SOURCE_DIR}/asset $<TARGET_FILE_DIR:${EXE_NAME}>/App/asset)
 
